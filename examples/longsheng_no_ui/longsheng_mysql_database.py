@@ -36,13 +36,16 @@ class DbContractData(Model):
     net_position: bool = BooleanField()      # whether gateway uses net position volume
     history_data: bool = BooleanField()      # whether gateway provides bar history data
 
-    option_strike: float = DoubleField()
-    option_underlying: str = CharField()     # vt_symbol of underlying contract
-    option_type: str = CharField()   #option_type: OptionType
-    option_listed: datetime = DateTimeMillisecondField()
-    option_expiry: datetime = DateTimeMillisecondField()
-    option_portfolio: str = CharField()
-    option_index: str = CharField()          # for identifying options with same strike price
+    trading_hours: str = CharField(null = True)    # 交易时间
+    time_zone: str = CharField(null = True)    # 品种所在的时区
+
+    option_strike: float = DoubleField(null = True)
+    option_underlying: str = CharField(null = True)     # vt_symbol of underlying contract
+    option_type: str = CharField(null = True)   #option_type: OptionType
+    option_listed: datetime = DateTimeMillisecondField(null = True)
+    option_expiry: datetime = DateTimeMillisecondField(null = True)
+    option_portfolio: str = CharField(null = True)
+    option_index: str = CharField(null = True)          # for identifying options with same strike price
 
     class Meta:
         database: PeeweeMySQLDatabase = db
