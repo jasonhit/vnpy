@@ -23,10 +23,10 @@ SOPT_SETTING = load_json("connect_sopt.json")
 
 # Chinese futures market trading period (day/night)
 DAY_START = time(8, 40)
-DAY_END = time(16, 00)
+DAY_END = time(18, 00)
 
 NIGHT_START = time(20, 40)
-NIGHT_END = time(3, 00)
+NIGHT_END = time(6, 30)
 
 
 def check_trading_period():
@@ -34,26 +34,12 @@ def check_trading_period():
     current_time = datetime.now().time()
 
     trading = False
-    # 符合开启的时间
     if (
         (current_time >= DAY_START and current_time <= DAY_END)
         or (current_time >= NIGHT_START)
         or (current_time <= NIGHT_END)
     ):
         trading = True
-    
-    # 周六、周日的白天，要关闭
-    if datetime.now().isoweekday() in [6,7]:
-        if current_time >= DAY_START and current_time <= DAY_END:
-            trading = False
-    # 周六、周日的晚上，也要关闭
-    if datetime.now().isoweekday() in [6,7]:
-        if current_time >= NIGHT_START:
-            trading = False
-    # 周日、周一的凌晨，也要关闭
-    if datetime.now().isoweekday() in [1,7]:
-        if current_time <= NIGHT_END:
-            trading = False
 
     return trading
 

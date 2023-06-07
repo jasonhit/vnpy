@@ -3,7 +3,7 @@ from pathlib import Path
 from enum import Enum
 from typing import Dict, List, Any
 from queue import Empty
-from threading import Thread, Lock
+from threading import Thread
 from multiprocessing import Process, Queue
 from collections import defaultdict
 from copy import deepcopy, copy
@@ -65,8 +65,6 @@ class WholeMarketRecorder(RecorderEngine):
         self.timer_init_couter = 0
         self.subcribed_one_time = 2000
 
-        self.lock: Lock = Lock()
-
         self.consumer_process_pool: List[Process] = []
         
         # 以下至方法结束，都是父类的属性及初始化方法，本来用suer()就可以解决的，但由于子类要自己的database，和父类的重复了，ORM又不能重复链接，所有把父类的init的内容拷贝过来
@@ -97,7 +95,7 @@ class WholeMarketRecorder(RecorderEngine):
         self.put_event()
 
     def start(self):
-        for i in range(3):
+        for i in range(5):
             tmp_consumer = Process(target=consumer, args=(self.queue,))
             tmp_consumer.daemon = True # 父进程退出，子进程自动退出
             tmp_consumer.start()
@@ -135,10 +133,8 @@ class WholeMarketRecorder(RecorderEngine):
         self.timer_count = 0
 
         if len(self.all_ticks_list) > 0:
-            self.lock.acquire()
             self.queue.put(("tick", copy(self.all_ticks_list)))
             self.all_ticks_list.clear()
-            self.lock.release()
 
         # 系统启动N秒(2*60)秒后，才开始订阅行情，让系统有足够的时间去处理初始化
         self.timer_init_couter += 1
@@ -166,8 +162,6 @@ class WholeMarketRecorder(RecorderEngine):
     
     def update_tick(self, tick: TickData) -> None:
         """"""
-        self.lock.acquire()
         self.all_ticks_list.append(copy(tick))
-        self.lock.release()
         #self.tick_count += 1
         #print(f"行情更新数量：{self.tick_count}")

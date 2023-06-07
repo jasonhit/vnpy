@@ -67,27 +67,21 @@ def run_child():
     event_engine = EventEngine()
     main_engine = MainEngine(event_engine)
     main_engine.add_gateway(CtpGateway)
-    main_engine.add_gateway(SoptGateway)
     
     main_engine.write_log("主引擎创建成功")
 
     log_engine = main_engine.get_engine("log")
 
     whole_market_recorder = WholeMarketRecorder(main_engine, event_engine)
-    #whole_market_recorder = WholeMarketRecorderToCsv(main_engine, event_engine)
-    main_engine.write_log("录制模块已就绪")
+
+    main_engine.write_log("CTP录制模块已就绪")
 
     main_engine.connect(CTP_SETTING, "CTP")
     main_engine.write_log("连接CTP接口")
     # CTP初始化比较久，需要查询所有的合约信息
     sleep(3)
 
-    main_engine.connect(SOPT_SETTING, "SOPT")
-    main_engine.write_log("连接SOPT接口")
-    # SOPT初始化比较久，需要查询所有的合约信息
-    sleep(3)
-
-    main_engine.write_log("行情记录程序启动完成")
+    main_engine.write_log("CTP行情记录程序启动完成")
 
     while True:
         sleep(10)
@@ -103,7 +97,7 @@ def run_parent():
     """
     Running in the parent process.
     """
-    print("启动行情记录守护父进程")
+    print("CTP启动行情记录守护父进程")
 
     child_process = None
 
@@ -112,16 +106,16 @@ def run_parent():
 
         # Start child process in trading period
         if trading and child_process is None:
-            print("启动子进程")
+            print("CTP录制启动子进程")
             child_process = multiprocessing.Process(target=run_child)
             child_process.start()
-            print("子进程启动成功")
+            print("CTP录制子进程启动成功")
 
         # 非记录时间则退出子进程
         if not trading and child_process is not None:
             if not child_process.is_alive():
                 child_process = None
-                print("子进程关闭成功")
+                print("CTP录制子进程关闭成功")
 
         sleep(5)
 

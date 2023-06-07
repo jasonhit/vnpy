@@ -1,5 +1,6 @@
 1. 数据库的配置文件，是读取vnpy trader的配置文件的，所以，要先安装vn station，然后打开软件配置好数据库、CTP、SOPT的信息。（vt_setting.json/connect_ctp.json/connect_sopt.json）
 2. vnpy/trader/gateway.py，把on_tick下的on_event(EVENT_TICK + tick.vt_symbol, tick)注释掉，全量行情事件太多，cpu很慢，这个事件完全用不到
 3. vnpy_mysql/mysql_database.py，DbTickData，index没必要是唯一主键，把True改成False。因为数据量大，判断重复，插入缓慢
-4. 修改run.bat对应的目录
-5. 直接启动run.bat
+4. 上交所收到的时间是成交时间，不是bidask的更新时间，sopt_gateway.py，onRtnDepthMarketData的dt，正对SSH，改成接收时间
+5. 修改run.bat对应的目录
+6. 直接启动run.bat
