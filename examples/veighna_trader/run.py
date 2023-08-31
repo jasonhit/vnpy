@@ -20,9 +20,10 @@ from vnpy_ib import IbGateway
 # from vnpy_tap import TapGateway
 # from vnpy_da import DaGateway
 # from vnpy_rohon import RohonGateway
-# from vnpy_tts import TtsGateway
+from vnpy_tts import TtsGateway
 # from vnpy_ost import OstGateway
-# from vnpy_hft import GtjaGateway
+from vnpy_hft import HftGateway
+from vnpy_rpcservice import RpcGateway
 
 from vnpy_ctastrategy import CtaStrategyApp
 from vnpy_ctabacktester import CtaBacktesterApp
@@ -67,22 +68,24 @@ def main():
     # main_engine.add_gateway(TapGateway)
     # main_engine.add_gateway(DaGateway)
     # main_engine.add_gateway(RohonGateway)
-    # main_engine.add_gateway(TtsGateway)
+    main_engine.add_gateway(TtsGateway)
     # main_engine.add_gateway(OstGateway)
     # main_engine.add_gateway(NhFuturesGateway)
     # main_engine.add_gateway(NhStockGateway)
+    main_engine.add_gateway(HftGateway)
+    main_engine.add_gateway(RpcGateway)
 
     # main_engine.add_app(PaperAccountApp)
     main_engine.add_app(CtaStrategyApp)
     main_engine.add_app(CtaBacktesterApp)
     main_engine.add_app(SpreadTradingApp)
     main_engine.add_app(AlgoTradingApp)
-    main_engine.add_app(OptionMasterApp)
+    #main_engine.add_app(OptionMasterApp)
     main_engine.add_app(PortfolioStrategyApp)
     main_engine.add_app(ScriptTraderApp)
     # main_engine.add_app(ChartWizardApp)
-    # main_engine.add_app(RpcServiceApp)
-    main_engine.add_app(ExcelRtdApp)
+    main_engine.add_app(RpcServiceApp)
+    #main_engine.add_app(ExcelRtdApp)
     # main_engine.add_app(DataManagerApp)
     # main_engine.add_app(DataRecorderApp)
     # main_engine.add_app(RiskManagerApp)
