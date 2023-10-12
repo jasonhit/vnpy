@@ -41,6 +41,9 @@ from vnpy_riskmanager import RiskManagerApp
 from vnpy_webtrader import WebTraderApp
 from vnpy_portfoliomanager import PortfolioManagerApp
 from vnpy_paperaccount import PaperAccountApp
+from ls_quoterouter import QuoteRouterApp
+from ls_traderouter import TradeRouterApp
+from ls_quotecenter import QuoteCenterApp
 
 
 def main():
@@ -91,6 +94,9 @@ def main():
     # main_engine.add_app(RiskManagerApp)
     # main_engine.add_app(WebTraderApp)
     # main_engine.add_app(PortfolioManagerApp)
+    main_engine.add_app(QuoteRouterApp)
+    main_engine.add_app(TradeRouterApp)
+    main_engine.add_app(QuoteCenterApp)
     
     main_window = MainWindow(main_engine, event_engine)
     main_window.showMaximized()
