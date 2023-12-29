@@ -313,12 +313,12 @@ class LogEngine(BaseEngine):
         Add file output of log.
         """
         today_date: str = datetime.now().strftime("%Y%m%d")
-        filename: str = f"vt_{today_date}.log"
+        filename: str = f"vt_{today_date}.csv"
         log_path: Path = get_folder_path("log")
         file_path: Path = log_path.joinpath(filename)
 
         file_handler: logging.FileHandler = logging.FileHandler(
-            file_path, mode="a", encoding="utf8"
+            file_path, mode="a", encoding="utf_8_sig"
         )
         file_handler.setLevel(self.level)
         file_handler.setFormatter(self.formatter)
