@@ -244,6 +244,7 @@ class MainWindow(QtWidgets.QMainWindow):
         """
         Call main engine close function before exit.
         """
+        '''
         reply = QtWidgets.QMessageBox.question(
             self,
             "退出",
@@ -266,6 +267,18 @@ class MainWindow(QtWidgets.QMainWindow):
             event.accept()
         else:
             event.ignore()
+        '''
+        for widget in self.widgets.values():
+            widget.close()
+
+        for monitor in self.monitors.values():
+            monitor.save_setting()
+
+        self.save_window_setting("custom")
+
+        self.main_engine.close()
+
+        event.accept()
 
     def open_widget(self, widget_class: QtWidgets.QWidget, name: str) -> None:
         """
@@ -324,3 +337,49 @@ class MainWindow(QtWidgets.QMainWindow):
         """
         dialog: GlobalDialog = GlobalDialog()
         dialog.exec()
+
+    # below add by longsheng----------------------------------------------------------------------
+    def connect_gateway(self, gateway_name: str) -> None:
+        """
+        程序自动连接交易接口
+        """
+        dialog: ConnectDialog = ConnectDialog(self.main_engine, gateway_name)
+        dialog.connect()
+    
+    def open_grid_strategy(self) -> None:
+        """
+        程序自动打开网格交易
+        """
+        all_apps: List[BaseApp] = self.main_engine.get_all_apps()
+        for app in all_apps:
+            # 如果不是网格app，则跳过
+            if app.app_name != "GridTradingStrategy":
+                continue
+            ui_module: ModuleType = import_module(app.app_module + ".ui")
+            widget_class: QtWidgets.QWidget = getattr(ui_module, app.widget_name)
+            self.open_widget(widget_class, app.app_name)
+    
+    def auto_close_program(self, hour:int, minute:int, second:int) -> None:
+        """
+        自动在指定时间关闭程序
+        """
+        # 获取当前时间
+        current_time = QtCore.QTime.currentTime()
+
+        # 设置每天的关闭时间为15:00
+        close_time = QtCore.QTime(hour, minute, second)
+
+        # 计算当前时间到每天的关闭时间的时间差
+        time_to_close = current_time.msecsTo(close_time)
+
+        # 如果当前时间已经过了关闭时间，则10 * 1000 毫秒后关闭程序
+        if time_to_close < 0:
+            time_to_close = 10 * 1000  # 24小时的毫秒数
+
+        # 创建一个定时器
+        self.auto_close_program_timer = QtCore.QTimer(self)
+        # 连接定时器的超时信号到关闭窗口的槽函数
+        self.auto_close_program_timer.timeout.connect(self.close)
+
+        # 启动定时器，设置为在计算得到的时间差后触发一次超时
+        self.auto_close_program_timer.start(time_to_close)
