@@ -372,9 +372,9 @@ class MainWindow(QtWidgets.QMainWindow):
         # 计算当前时间到每天的关闭时间的时间差
         time_to_close = current_time.msecsTo(close_time)
 
-        # 如果当前时间已经过了关闭时间，则10 * 1000 毫秒后关闭程序
+        # 如果当前时间已经过了关闭时间，那是第二天的关闭时间
         if time_to_close < 0:
-            time_to_close = 10 * 1000  # 24小时的毫秒数
+            time_to_close += 24 * 60 * 60 * 1000  # 24小时的毫秒数
 
         # 创建一个定时器
         self.auto_close_program_timer = QtCore.QTimer(self)

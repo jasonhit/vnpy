@@ -52,6 +52,7 @@ class Product(Enum):
     WARRANT = "权证"
     SPREAD = "价差"
     FUND = "基金"
+    CRYPTO = "加密货币" # ADD
 
 
 class OrderType(Enum):
@@ -129,6 +130,13 @@ class Exchange(Enum):
     KRX = "KRX"             # Korean Exchange
     OTC = "OTC"             # OTC Product (Forex/CFD/Pink Sheet Equity)
     IBKRATS = "IBKRATS"     # Paper Trading Exchange of IB
+
+    NYSEARCA = "NYSEARCA",  # add
+    FTXU = "FTXU",          # add
+    CBSE = "CBSE",          # add
+    GNSS = "GNSS",          # add
+    ERSX = "ERSX",          # add
+    CRYPTO = "CRYPTO"       # add
 
     # Special Function
     LOCAL = "LOCAL"         # For local generated data
