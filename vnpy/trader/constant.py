@@ -117,7 +117,7 @@ class Exchange(Enum):
     SEHK = "SEHK"           # Stock Exchange of Hong Kong
     HKFE = "HKFE"           # Hong Kong Futures Exchange
     SGX = "SGX"             # Singapore Global Exchange
-    CBOT = "CBT"            # Chicago Board of Trade
+    CBOT = "CBOT"            # Chicago Board of Trade
     CBOE = "CBOE"           # Chicago Board Options Exchange
     CFE = "CFE"             # CBOE Futures Exchange
     DME = "DME"             # Dubai Mercantile Exchange
@@ -129,13 +129,17 @@ class Exchange(Enum):
     EUNX = "EUNX"           # Euronext Exchange
     KRX = "KRX"             # Korean Exchange
     OTC = "OTC"             # OTC Product (Forex/CFD/Pink Sheet Equity)
+    OVERNIGHT = "OVERNIGHT" # Overnight -- ADD BY JASON
+    SBF = "SBF"             # SIX Swiss Exchange
+    EBS = "EBS"             # EBS BrokerTec
+    TSEJ = "TSEJ"           # Tokyo Stock Exchange
     IBKRATS = "IBKRATS"     # Paper Trading Exchange of IB
 
-    NYSEARCA = "NYSEARCA",  # add
-    FTXU = "FTXU",          # add
-    CBSE = "CBSE",          # add
-    GNSS = "GNSS",          # add
-    ERSX = "ERSX",          # add
+    NYSEARCA = "NYSEARCA"   # add
+    FTXU = "FTXU"           # add
+    CBSE = "CBSE"           # add
+    GNSS = "GNSS"           # add
+    ERSX = "ERSX"           # add
     CRYPTO = "CRYPTO"       # add
 
     # Special Function
