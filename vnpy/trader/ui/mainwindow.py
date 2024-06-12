@@ -280,6 +280,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
         event.accept()
 
+        #强制退出程序
+        QtWidgets.QApplication.quit()
+
     def open_widget(self, widget_class: QtWidgets.QWidget, name: str) -> None:
         """
         Open contract manager.
